@@ -115,3 +115,24 @@ log4j.main = {
            'org.hibernate',
            'net.sf.ehcache.hibernate'
 }
+
+
+// Added by the Spring Security Core plugin:
+grails.plugin.springsecurity.userLookup.userDomainClassName = 'com.tccs.User'
+grails.plugin.springsecurity.userLookup.authorityJoinClassName = 'com.tccs.UserRole'
+grails.plugin.springsecurity.authority.className = 'com.tccs.Role'
+grails.plugin.springsecurity.securityConfigType = "Annotation"
+grails.plugin.springsecurity.controllerAnnotations.staticRules = [
+	// '/':                ['IS_AUTHENTICATED_ANONYMOUSLY'],
+ //    '/user/**':         ['ROLE_ADMIN'],
+ //    '/role/**':         ['ROLE_ADMIN'],
+ //    '/home.gsp':        ['IS_AUTHENTICATED_ANONYMOUSLY'],
+	// '/index':           ['IS_AUTHENTICATED_ANONYMOUSLY'],
+	// '/index.gsp':       ['IS_AUTHENTICATED_ANONYMOUSLY'],
+	'/assets/**':       ['permitAll'],
+	'/**/js/**':        ['permitAll'],
+	'/**/css/**':       ['permitAll'],
+	'/**/images/**':    ['permitAll'],
+	'/**/favicon.ico':  ['permitAll']
+]
+

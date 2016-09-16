@@ -1,11 +1,11 @@
 package com.tccs
 
 import grails.transaction.Transactional
+import com.tccs.type.RoleAuthority
 
 @Transactional
 class RoleService {
-
-    def serviceMethod() {
-
-    }
+	Role fetchRoleByAuthority(RoleAuthority authority) {
+		return Role.findByAuthority("$authority")
+	}
 }

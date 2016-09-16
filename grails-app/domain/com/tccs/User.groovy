@@ -1,26 +1,63 @@
 package com.tccs
 
-class User {
+class User implements Serializable {
 
-	String firstName
-	String lastName
+	transient springSecurityService
+
 	String username
 	String password
+	boolean enabled = true
+	boolean accountExpired
+	boolean accountLocked
+	boolean passwordExpired
+
+	String firstName
+	String middleName
+	String lastName
 	String email
+	String position
+	String department
+
+	Set<Role> getAuthorities() {
+		List roles = UserRole.findAllByUser(this)
+		return roles*.role
+	}
+
+	static hasMany = [corrections: Correction]
 
     String toString(){
         return username
     }
 
-	static hasMany = [roles: Role, corrections: Correction]
+    def beforeInsert() {
+		encodePassword()
+	}
+
+	def beforeUpdate() {
+		if (isDirty('password')) {
+			encodePassword()
+		}
+	}
+
+	protected void encodePassword() {
+		println "***"
+		password = springSecurityService?.passwordEncoder ? springSecurityService.encodePassword(password) : password
+	}
+
+	static transients = ['springSecurityService']
+	
+	static mapping = {
+		password column: '`password`'
+	}
 
     static constraints = {
-    	firstName(nullable: false, blank: false, unique: true)
-    	lastName(nullable: false, blank: false, unique: true)
+    	firstName(nullable: true, blank: false)
+    	middleName(nullable: true, blank: false)
+    	lastName(nullable: true, blank: false)
     	username(nullable: false, blank: false, unique: true)
     	password(password: true, nullable: false, blank: false)
-    	email(email: true, nullable: false, blank: false, unique: true)
-    	roles(blank: false)
-        corrections(display: false, blank: true, nullable: true)
+    	email(email: true, nullable: true, blank: false, unique: true)
+    	position(nullable: true, blank: false)
+    	department(nullable: true, blank: false)
     }
 }

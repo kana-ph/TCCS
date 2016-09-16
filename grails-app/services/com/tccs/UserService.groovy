@@ -4,9 +4,23 @@ import grails.transaction.Transactional
 
 @Transactional 
 class UserService {
-	User saveUser(String firstName, String lastName, String username, String password, String email, Set<Role> roles) {
-		User user = new User(firstName: firstName, lastName: lastName, username: username, password: password, email: email, roles: roles)
+	UserRoleService userRoleService
+	User saveUser(String firstName, String middleName, String lastName, String username, String password, String email, String position, String department, List roles) {
+		
+		// User user = new User(
+  //                               firstName: firstName,
+  //                               middleName: middleName,
+  //                               lastName: lastName,
+  //                               username: username,
+  //                               password: password,
+  //                               email: email,
+  //                               position: position,
+  //                               department: department)
 		user.save()
+		if(user.validate()) {
+			userRoleService.save(user, roles as Set)
+		}
+		println user
 		return user
 	}
 

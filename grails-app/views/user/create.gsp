@@ -1,38 +1,107 @@
-<!DOCTYPE html>
+<%@ page import="com.tccs.type.RoleAuthority" %>
+
 <html>
 	<head>
-		<meta name="layout" content="main">
-		<g:set var="entityName" value="${message(code: 'user.label', default: 'User')}" />
-		<title><g:message code="default.create.label" args="[entityName]" /></title>
+		<title>Create User</title>
+		<meta name="layout" content="theme"/>
 	</head>
-	<body>
-		<a href="#create-user" class="skip" tabindex="-1"><g:message code="default.link.skip.label" default="Skip to content&hellip;"/></a>
-		<div class="nav" role="navigation">
-			<ul>
-				<li><a class="home" href="${createLink(uri: '/')}"><g:message code="default.home.label"/></a></li>
-				<li><g:link class="list" action="index"><g:message code="default.list.label" args="[entityName]" /></g:link></li>
-			</ul>
-		</div>
-		<div id="create-user" class="content scaffold-create" role="main">
-			<h1><g:message code="default.create.label" args="[entityName]" /></h1>
-			<g:if test="${flash.message}">
-			<div class="message" role="status">${flash.message}</div>
-			</g:if>
-			<g:hasErrors bean="${userInstance}">
-			<ul class="errors" role="alert">
-				<g:eachError bean="${userInstance}" var="error">
-				<li <g:if test="${error in org.springframework.validation.FieldError}">data-field-id="${error.field}"</g:if>><g:message error="${error}"/></li>
-				</g:eachError>
-			</ul>
-			</g:hasErrors>
-			<g:form url="[resource:userInstance, action:'save']" >
-				<fieldset class="form">
-					<g:render template="form"/>
-				</fieldset>
-				<fieldset class="buttons">
-					<g:submitButton name="create" class="save" value="${message(code: 'default.button.create.label', default: 'Create')}" />
-				</fieldset>
-			</g:form>
-		</div>
-	</body>
+ 	<body>
+ 		<div>
+ 			<fieldset>
+ 				<legend>Create User</legend>
+ 				<g:form controller="user" action="save">
+ 					<table style="width: 20%;">
+ 						<tbody>
+ 							<tr>
+ 								<td>
+ 									<label for="firstName">First Name: </label>
+ 								</td>
+ 								<td>
+ 									<g:textField name="firstName" value="${user?.firstName}" />
+ 								</td>
+ 							</tr>
+ 							<tr>
+ 								<td>
+ 									<label for="middleName">Middle Name: </label>
+ 								</td>
+ 								<td>
+ 									<g:textField name="middleName" value="${user?.middleName}" />
+ 								</td>
+ 							</tr>
+ 							<tr>
+ 								<td>
+ 									<label for="lastName">Last Name: </label>
+ 								</td>
+ 								<td>
+ 									<g:textField name="lastName" value="${user?.lastName}" />
+ 								</td>
+ 							</tr>
+ 							<tr>
+ 								<td>
+ 									<label for="username">Username: </label>
+ 								</td>
+ 								<td>
+ 									<g:textField name="username" value="${user?.username}" />
+ 								</td>
+ 							</tr>
+ 							<tr>
+ 								<td>
+ 									<label for="password">Password: </label>
+ 								</td>
+ 								<td>
+ 									<g:passwordField name="password" value="${user?.password}" />
+ 								</td>
+ 							</tr>
+ 							<tr>
+ 								<td>
+ 									<label for="email">Email: </label>
+ 								</td>
+ 								<td>
+ 									<g:textField name="email" value="${user?.email}" />
+ 								</td>
+ 							</tr>
+ 							<tr>
+ 								<td>
+ 									<label for="position">Position: </label>
+ 								</td>
+ 								<td>
+ 									<g:textField name="position" value="${user?.position}" />
+ 								</td>
+ 							</tr>
+ 							<tr>
+ 								<td>
+ 									<label for="department">Department: </label>
+ 								</td>
+ 								<td>
+ 									<g:textField name="department" value="${user?.department}" />
+ 								</td>
+ 							</tr>
+ 							<tr>
+ 								<td>
+ 									<label>Role:<label /> 
+ 								</td>
+ 								<td>
+ 									<g:checkBox name="roleAdmin" value="${RoleAuthority.ROLE_ADMIN}" checked="false" />
+ 									<label for="roleAdmin">${RoleAuthority.ROLE_ADMIN.name}</label>
+ 									<br />
+ 									<g:checkBox name="roleHead" value="${RoleAuthority.ROLE_HEAD}" checked="false" />
+ 									<label for="roleHead">${RoleAuthority.ROLE_HEAD.name}</label>
+ 								</td>
+ 							</tr>
+ 						</tbody>
+ 					</table>				
+ 					<g:submitButton name="save" value="Save"/>
+ 					<div class="alert alert-error" style="display: block">
+	 					<g:eachError bean="${user}">
+	  						<li>${it}</li>
+						</g:eachError>
+					</div>
+ 					<g:if test="${flash.message}">
+  						<div class="message" style="display: block"><g:message message="${flash.message}" /></div>
+					</g:if>
+ 				</g:form>
+ 			</fieldset>	
+ 		</div>
+ 		<asset:javascript src="application.js" /> 
+ 	</body>
 </html>

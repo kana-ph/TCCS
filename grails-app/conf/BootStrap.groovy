@@ -3,11 +3,28 @@ import com.tccs.*
 class BootStrap {
 
     def init = { servletContext ->
-    	def user = new Role(authority: "User").save(failOnError: true)
-    	def admin = new Role(authority: "Admin").save(failOnError: true)
-    	def approver = new Role(authority: "Approver").save(failOnError: true)
+    	def userRole = new Role(authority: "ROLE_USER").save(failOnError: true)
+    	def adminRole = new Role(authority: "ROLE_ADMIN").save(failOnError: true)
+    	def headRole = new Role(authority: "ROLE_HEAD").save(failOnError: true)
+    	
+    	def admin = new User(firstName: 'first', middleName: 'middle', lastName: 'last', username: 'admin', password: 'admin', email: 'email@synacy.com', position: 'position', department: 'department').save(failOnError: true, flush: true)
+        
+        new UserRole(user: admin, role: userRole).save(failOnError: true, flush: true)
+        new UserRole(user: admin, role: adminRole).save(failOnError: true, flush: true)
 
-    	// def kenichi = new User(fullname: "Kenichi Go Uang", username: "kenichigouang", password: "InnaGwapa11790", email: "kenichi.uang@synacy.com", roles: [user, admin, approver]).save(failOnError: true)
+        // def headRole = new Role(authority: 'ROLE_HEAD').save(failOnError: true)
+        // def head = new User(username: 'head', password: 'head').save(failOnError: true)
+
+        // def userRole = new Role(authority: 'ROLE_USER').save(failOnError: true)
+        // def user = new User(username: 'user', password: 'user').save(failOnError: true)
+
+        // if(!user.authorities.contains('ROLE_HEAD')) {
+        //     def head_userRole = new UserRole(user: head, role: headRole).save(failOnError: true)
+        // }
+
+        // if(!user.authorities.contains('ROLE_USER')) {
+        //     def user_userRole = new UserRole(user: user, role: userRole).save(failOnError: true)
+        // }    
 	}
     def destroy = { 
     }
