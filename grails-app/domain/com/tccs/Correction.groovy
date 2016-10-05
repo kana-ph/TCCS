@@ -1,19 +1,28 @@
 package com.tccs
 
+import com.tccs.type.ReasonType
+import com.tccs.type.EntryType
+import com.tccs.type.StatusType
+
 class Correction {
 
-	Date dateCreated
-	Date lastUpdated
-	Date dateConcerned = new Date()
-	String content
+	Date dateTimeCorrection
+    ReasonType reason
+    EntryType entryRequired
+    String comment
+    StatusType status
+    User user
+    // ReasonType reason
 
-    static hasOne = [user: User]
+    static hasMany = [proofs: Proof]
 
+    static mapping = {
+        autoTimestamp true
+    }
     static constraints = {
-    	dateCreated()
-    	lastUpdated()
-    	dateConcerned(blank: false, nullable: false)
-    	content(maxSize: 1000, blank: false, nullable: false)
-    	user(blank: false, nullable: false)
+        dateTimeCorrection blank: false, nullable: false
+        comment maxSize: 1000, blank: true, nullable: true
+        proofs nullable: true
+        user nullable: false
     }
 }

@@ -8,4 +8,8 @@ class RoleService {
 	Role fetchRoleByAuthority(RoleAuthority authority) {
 		return Role.findByAuthority("$authority")
 	}
+
+	Set<Role> fetchRolesByAuthorities(Set<RoleAuthority> authorities ) {
+		return Role.findAllByAuthorityInList(authorities*.toString())
+	}
 }

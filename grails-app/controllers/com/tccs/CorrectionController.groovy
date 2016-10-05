@@ -1,104 +1,50 @@
 package com.tccs
 
-
-
 import static org.springframework.http.HttpStatus.*
-import grails.transaction.Transactional
+import org.springframework.security.access.annotation.Secured
+import grails.plugin.springsecurity.SpringSecurityService
 
-@Transactional(readOnly = true)
 class CorrectionController {
+    CorrectionService correctionService
+    def springSecurityService
 
-    static allowedMethods = [save: "POST", update: "PUT", delete: "DELETE"]
-
-    def index(Integer max) {
-        params.max = Math.min(max ?: 10, 100)
-        respond Correction.list(params), model:[correctionInstanceCount: Correction.count()]
-    }
-
-    def show(Correction correctionInstance) {
-        respond correctionInstance
-    }
-
+    @Secured(['ROLE_USER'])
     def create() {
-        respond new Correction(params)
+
     }
 
-    @Transactional
-    def save(Correction correctionInstance) {
-        if (correctionInstance == null) {
-            notFound()
-            return
-        }
-
-        if (correctionInstance.hasErrors()) {
-            respond correctionInstance.errors, view:'create'
-            return
-        }
-
-        correctionInstance.save flush:true
-
-        request.withFormat {
-            form multipartForm {
-                flash.message = message(code: 'default.created.message', args: [message(code: 'correction.label', default: 'Correction'), correctionInstance.id])
-                redirect correctionInstance
-            }
-            '*' { respond correctionInstance, [status: CREATED] }
-        }
+    private Date stringToDate(String date) {
+        return Date.parse('MM/dd/yyyy hh:mm a', date)
     }
 
-    def edit(Correction correctionInstance) {
-        respond correctionInstance
+    private String dateToString(Date date) {
+        return date.format('MM/dd/yyyy hh:mm a')
     }
 
-    @Transactional
-    def update(Correction correctionInstance) {
-        if (correctionInstance == null) {
-            notFound()
-            return
-        }
+    @Secured(['ROLE_USER'])
+    def save() {
+        println springSecurityService.getCurrentUser()
 
-        if (correctionInstance.hasErrors()) {
-            respond correctionInstance.errors, view:'edit'
-            return
-        }
+        Date dateTimeCorrection = stringToDate(params.dateTimeCorrection)
+        String reason = params.reason
+        String entryRequired = params.entryRequired
+        String comment = params.comment
 
-        correctionInstance.save flush:true
+        def user = springSecurityService.currentUser
 
-        request.withFormat {
-            form multipartForm {
-                flash.message = message(code: 'default.updated.message', args: [message(code: 'Correction.label', default: 'Correction'), correctionInstance.id])
-                redirect correctionInstance
-            }
-            '*'{ respond correctionInstance, [status: OK] }
-        }
+        correctionService.saveCorrection(dateTimeCorrection, reason, entryRequired, comment, user)
+        flash.message = "Successfully Sent"
+        redirect(action: "create")
     }
 
-    @Transactional
-    def delete(Correction correctionInstance) {
-
-        if (correctionInstance == null) {
-            notFound()
-            return
-        }
-
-        correctionInstance.delete flush:true
-
-        request.withFormat {
-            form multipartForm {
-                flash.message = message(code: 'default.deleted.message', args: [message(code: 'Correction.label', default: 'Correction'), correctionInstance.id])
-                redirect action:"index", method:"GET"
-            }
-            '*'{ render status: NO_CONTENT }
-        }
+    @Secured(['ROLE_USER'])
+    def index() {
+        def corrections = Correction.list()
+        [corrections: corrections]
     }
 
-    protected void notFound() {
-        request.withFormat {
-            form multipartForm {
-                flash.message = message(code: 'default.not.found.message', args: [message(code: 'correction.label', default: 'Correction'), params.id])
-                redirect action: "index", method: "GET"
-            }
-            '*'{ render status: NOT_FOUND }
-        }
+    @Secured(['ROLE_USER'])
+    def uploadProof() {
+        
     }
 }

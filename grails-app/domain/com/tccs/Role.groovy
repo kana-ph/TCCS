@@ -1,5 +1,8 @@
 package com.tccs
 
+import groovy.transform.EqualsAndHashCode
+
+@EqualsAndHashCode
 class Role {
 
     String authority

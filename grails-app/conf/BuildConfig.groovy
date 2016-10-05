@@ -77,5 +77,6 @@ grails.project.dependency.resolution = {
 
         //test data builder plugin
         compile ':build-test-data:2.4.0'
+        compile "org.grails.plugins:extra-validators:0.2"
     }
 }

@@ -8,8 +8,10 @@
 		<fieldset>
 			<legend>Users</legend>
 			<g:each in="${users}" var="user" status="i">
-           	 	<h3>${i+1}. "${user.firstName} ${user.middleName} ${user.lastName}" ${user.getAuthorities()}</h3>
-          	  	<br/>
+				<h4>
+					${user.id}. ${user.username} ${user.firstName} ${user.middleName} ${user.lastName}
+					<g:link controller="user" action="edit" params="[id: user.id]">edit</g:link>
+				</h4>
        	 	</g:each>
 		</fieldset>        
 	</body>

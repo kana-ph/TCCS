@@ -7,10 +7,13 @@ class BootStrap {
     	def adminRole = new Role(authority: "ROLE_ADMIN").save(failOnError: true)
     	def headRole = new Role(authority: "ROLE_HEAD").save(failOnError: true)
     	
-    	def admin = new User(firstName: 'first', middleName: 'middle', lastName: 'last', username: 'admin', password: 'admin', email: 'email@synacy.com', position: 'position', department: 'department').save(failOnError: true, flush: true)
+        def admin = new User(firstName: 'first', middleName: 'middle', lastName: 'last', username: 'admin', password: 'password', email: 'email@synacy.com', position: 'position', department: 'department').save(failOnError: true, flush: true)
+        def user = new User(firstName: 'Kenichi', middleName: 'Go', lastName: 'Uang', username: 'kenichi.uang', password: 'password', email: 'kenichi.uang@synacy.com', position: 'Intern', department: 'App Dev').save(failOnError: true, flush: true)
         
         new UserRole(user: admin, role: userRole).save(failOnError: true, flush: true)
         new UserRole(user: admin, role: adminRole).save(failOnError: true, flush: true)
+
+        new UserRole(user: user, role: userRole).save(failOnError: true, flush: true)
 
         // def headRole = new Role(authority: 'ROLE_HEAD').save(failOnError: true)
         // def head = new User(username: 'head', password: 'head').save(failOnError: true)

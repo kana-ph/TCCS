@@ -1,8 +1,12 @@
 package com.tccs
 
+import groovy.transform.EqualsAndHashCode
+
+@EqualsAndHashCode
 class User implements Serializable {
 
 	transient springSecurityService
+	transient passwordConfirm
 
 	String username
 	String password
@@ -17,6 +21,7 @@ class User implements Serializable {
 	String email
 	String position
 	String department
+	String confirmPassword
 
 	Set<Role> getAuthorities() {
 		List roles = UserRole.findAllByUser(this)
@@ -40,24 +45,29 @@ class User implements Serializable {
 	}
 
 	protected void encodePassword() {
-		println "***"
 		password = springSecurityService?.passwordEncoder ? springSecurityService.encodePassword(password) : password
+		// confirmPassword = springSecurityService?.passwordEncoder ? springSecurityService.encodePassword(confirmPassword) : confirmPassword
 	}
 
-	static transients = ['springSecurityService']
+	static transients = ['springSecurityService', 'confirmPassword']
 	
 	static mapping = {
 		password column: '`password`'
 	}
 
     static constraints = {
-    	firstName(nullable: true, blank: false)
-    	middleName(nullable: true, blank: false)
-    	lastName(nullable: true, blank: false)
-    	username(nullable: false, blank: false, unique: true)
-    	password(password: true, nullable: false, blank: false)
-    	email(email: true, nullable: true, blank: false, unique: true)
-    	position(nullable: true, blank: false)
-    	department(nullable: true, blank: false)
+		firstName nullable: true, blank: false
+		middleName nullable: true, blank: false
+		lastName nullable: true, blank: false
+		username nullable: false, blank: false, unique: true
+		password password: true, nullable: false, blank: false, minSize: 8//, confirmedPassword: 'confirmPassword'//, validator: { password, obj ->
+		// 	def passwordConfirm = obj.properties['passwordConfirm']
+		// 	if(passwordConfirm != password){
+		// 		return false
+		// 	}
+		// }
+		email email: true, nullable: true, blank: false, unique: true
+		position nullable: true, blank: false
+		department nullable: true, blank: false
     }
 }

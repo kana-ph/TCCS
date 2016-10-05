@@ -123,12 +123,14 @@ grails.plugin.springsecurity.userLookup.authorityJoinClassName = 'com.tccs.UserR
 grails.plugin.springsecurity.authority.className = 'com.tccs.Role'
 grails.plugin.springsecurity.securityConfigType = "Annotation"
 grails.plugin.springsecurity.controllerAnnotations.staticRules = [
-	// '/':                ['IS_AUTHENTICATED_ANONYMOUSLY'],
- //    '/user/**':         ['ROLE_ADMIN'],
- //    '/role/**':         ['ROLE_ADMIN'],
- //    '/home.gsp':        ['IS_AUTHENTICATED_ANONYMOUSLY'],
-	// '/index':           ['IS_AUTHENTICATED_ANONYMOUSLY'],
-	// '/index.gsp':       ['IS_AUTHENTICATED_ANONYMOUSLY'],
+	// '/':                ['permitAll']
+ //    '/user/':           ['permitAll']
+ //    '/role/':           ['permitAll']
+ //    '/home.gsp':        ['permitAll']
+	// '/index':           ['permitAll']
+	// '/index.gsp':       ['permitAll']
+    // '/**': ['IS_AUTHENTICATED_ANONYMOUSLY'],
+    '/**/fonts/**':     ['permitAll'],
 	'/assets/**':       ['permitAll'],
 	'/**/js/**':        ['permitAll'],
 	'/**/css/**':       ['permitAll'],

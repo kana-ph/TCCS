@@ -1,42 +1,18 @@
-
-<%@ page import="com.tccs.Correction" %>
 <!DOCTYPE html>
 <html>
 	<head>
-		<meta name="layout" content="main">
-		<g:set var="entityName" value="${message(code: 'correction.label', default: 'Correction')}" />
-		<title><g:message code="default.list.label" args="[entityName]" /></title>
+		<meta name="layout" content="theme"/>
+		<title>Corrections</title>
 	</head>
 	<body>
-		<a href="#list-correction" class="skip" tabindex="-1"><g:message code="default.link.skip.label" default="Skip to content&hellip;"/></a>
-		<div class="nav" role="navigation">
-			<ul>
-				<li><a class="home" href="${createLink(uri: '/')}"><g:message code="default.home.label"/></a></li>
-				<li><g:link class="create" action="create"><g:message code="default.new.label" args="[entityName]" /></g:link></li>
-			</ul>
-		</div>
-		<div id="list-correction" class="content scaffold-list" role="main">
-			<h1><g:message code="default.list.label" args="[entityName]" /></h1>
-			<g:if test="${flash.message}">
-				<div class="message" role="status">${flash.message}</div>
-			</g:if>
-			<table>
-			<thead>
-					<tr>
-					
-					</tr>
-				</thead>
-				<tbody>
-				<g:each in="${correctionInstanceList}" status="i" var="correctionInstance">
-					<tr class="${(i % 2) == 0 ? 'even' : 'odd'}">
-					
-					</tr>
-				</g:each>
-				</tbody>
-			</table>
-			<div class="pagination">
-				<g:paginate total="${correctionInstanceCount ?: 0}" />
-			</div>
-		</div>
+		<fieldset>
+			<legend>Users</legend>
+			<g:each in="${corrections}" var="correction" status="i">
+				<h4>
+					${correction.id}. ${correction.user.firstName} ${correction.user.middleName} ${correction.user.lastName}
+					<g:link controller="correction" action="review" params="[id: correction.id]">review</g:link>
+				</h4>
+			</g:each>
+		</fieldset>
 	</body>
 </html>

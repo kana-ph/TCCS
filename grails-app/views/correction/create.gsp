@@ -1,38 +1,98 @@
+<%@ page import="com.tccs.type.EntryType" %>
+<%@ page import="com.tccs.type.ReasonType" %>
 <!DOCTYPE html>
 <html>
 	<head>
-		<meta name="layout" content="main">
-		<g:set var="entityName" value="${message(code: 'correction.label', default: 'Correction')}" />
-		<title><g:message code="default.create.label" args="[entityName]" /></title>
+		<title>Create Correction</title>
+		<meta name="layout" content="theme"/>
 	</head>
 	<body>
-		<a href="#create-correction" class="skip" tabindex="-1"><g:message code="default.link.skip.label" default="Skip to content&hellip;"/></a>
-		<div class="nav" role="navigation">
-			<ul>
-				<li><a class="home" href="${createLink(uri: '/')}"><g:message code="default.home.label"/></a></li>
-				<li><g:link class="list" action="index"><g:message code="default.list.label" args="[entityName]" /></g:link></li>
-			</ul>
+		<div>
+			<fieldset>
+				<legend>Create Correction</legend>
+				<g:form controller="correction" action="save">
+					<table style="width: 20%;">
+						<tbody>
+							<tr>
+								<td>
+									<label for="reason">Reason for correction request: </label>
+								</td>
+								<td>
+									<div class="container">
+										<div class="row">
+											<div class='col-sm-4'>
+												<g:select name="reason" from="${ReasonType.values()}" value="${correction?.reason}" noSelection="['':'-select reason-']" optionKey="key" optionValue="name" />
+											</div>
+										</div>
+									</div>
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<label for="reason">Entry type for correction: </label>
+								</td>
+								<td>
+									<div class="container">
+										<div class="row">
+											<div class='col-sm-4'>
+												<g:select name="entryRequired" from="${EntryType.values()}" value="${correction?.entryRequired}" noSelection="['':'-select entry-']" optionKey="key" optionValue="name" />
+											</div>
+										</div>
+							        </div>
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<label for="comment">Correct date and time: </label>
+								</td>
+								<td>
+									<div class="container">
+									    <div class="row">
+									        <div class='col-sm-4'>
+									            <g:textField name="dateTimeCorrection" class="form-control" id='datetimepicker' value="${correction?.dateTimeCorrection}"/>
+									        </div>
+									    </div>
+									</div>
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<label for="comment">Comments: </label>
+								</td>
+								<td>
+									<div class="col-sm-4">
+										<g:textArea name="comment" rows="4" cols="42" value="${correction?.comment}" />
+									</div>
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<g:actionSubmit value="Upload Proof" action="uploadProof"/>
+								</td>
+							</tr>
+						</tbody>
+					</table>
+					<br />
+					<br />
+					<br />
+					<g:submitButton name="save" value="Submit"/>
+					%{-- <div class="alert alert-error" style="display: block">
+						<g:eachError bean="${user}">
+							<li>${it}</li>
+						</g:eachError>
+					</div> --}%
+					<g:if test="${flash.message}">
+						<div class="message" style="display: block">${flash.message}</div>
+					</g:if>
+				</g:form>
+			</fieldset>
 		</div>
-		<div id="create-correction" class="content scaffold-create" role="main">
-			<h1><g:message code="default.create.label" args="[entityName]" /></h1>
-			<g:if test="${flash.message}">
-			<div class="message" role="status">${flash.message}</div>
-			</g:if>
-			<g:hasErrors bean="${correctionInstance}">
-			<ul class="errors" role="alert">
-				<g:eachError bean="${correctionInstance}" var="error">
-				<li <g:if test="${error in org.springframework.validation.FieldError}">data-field-id="${error.field}"</g:if>><g:message error="${error}"/></li>
-				</g:eachError>
-			</ul>
-			</g:hasErrors>
-			<g:form url="[resource:correctionInstance, action:'save']" >
-				<fieldset class="form">
-					<g:render template="form"/>
-				</fieldset>
-				<fieldset class="buttons">
-					<g:submitButton name="create" class="save" value="${message(code: 'default.button.create.label', default: 'Create')}" />
-				</fieldset>
-			</g:form>
-		</div>
+		 <script type="text/javascript">
+			$(function () {
+                $('#datetimepicker').datetimepicker({
+					sideBySide: true
+                });
+            });
+        </script>
 	</body>
 </html>

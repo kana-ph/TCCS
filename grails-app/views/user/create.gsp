@@ -52,24 +52,32 @@
  									<g:passwordField name="password" value="${user?.password}" />
  								</td>
  							</tr>
- 							<tr>
- 								<td>
- 									<label for="email">Email: </label>
- 								</td>
- 								<td>
- 									<g:textField name="email" value="${user?.email}" />
- 								</td>
- 							</tr>
- 							<tr>
- 								<td>
- 									<label for="position">Position: </label>
- 								</td>
- 								<td>
- 									<g:textField name="position" value="${user?.position}" />
- 								</td>
- 							</tr>
- 							<tr>
- 								<td>
+							%{-- <tr>
+								<td>
+									<label for="passwordConfirm">Re-type password: </label>
+								</td>
+								<td>
+									<g:passwordField name="passwordConfirm" value="${user?.passwordConfirm}" />
+								</td>
+							</tr> --}%
+							<tr>
+								<td>
+									<label for="email">Email: </label>
+								</td>
+								<td>
+									<g:textField name="email" value="${user?.email}" />
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<label for="position">Position: </label>
+								</td>
+								<td>
+									<g:textField name="position" value="${user?.position}" />
+								</td>
+							</tr>
+							<tr>
+								<td>
  									<label for="department">Department: </label>
  								</td>
  								<td>
@@ -97,11 +105,11 @@
 						</g:eachError>
 					</div>
  					<g:if test="${flash.message}">
-  						<div class="message" style="display: block"><g:message message="${flash.message}" /></div>
+						<div class="message" style="display: block">${flash.message}</div>
 					</g:if>
  				</g:form>
  			</fieldset>	
  		</div>
- 		<asset:javascript src="application.js" /> 
+		%{-- <asset:javascript src="application.js" />  --}%
  	</body>
 </html>
