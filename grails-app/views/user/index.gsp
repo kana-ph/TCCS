@@ -7,9 +7,9 @@
 	<body>
 		<fieldset>
 			<legend>Users</legend>
-			<g:each in="${users}" var="user" status="i">
+			<g:each in="${users}" var="eachUser" status="i">
 				<h4>
-					${user.id}. ${user.username} ${user.firstName} ${user.middleName} ${user.lastName}
+					${eachUser.id}. ${eachUser.username} ${eachUser.firstName} ${eachUser.middleName} ${eachUser.lastName}
 					<g:link controller="user" action="edit" params="[id: user.id]">edit</g:link>
 				</h4>
        	 	</g:each>

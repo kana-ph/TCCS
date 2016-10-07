@@ -1,3 +1,5 @@
+<%@ page import="com.tccs.type.ReasonType" %>
+
 <!DOCTYPE html>
 <html>
 	<head>
@@ -6,10 +8,10 @@
 	</head>
 	<body>
 		<fieldset>
-			<legend>Users</legend>
-			<g:each in="${corrections}" var="correction" status="i">
+			<legend>Corrections</legend>
+			<g:each in="${corrections}" var="correction">
 				<h4>
-					${correction.id}. ${correction.user.firstName} ${correction.user.middleName} ${correction.user.lastName}
+					${correction.id}. ${correction.user.firstName} ${correction.user.middleName} ${correction.user.lastName} <font style="text-transform: uppercase;"><strong>${correction.status.name}</strong></font>
 					<g:link controller="correction" action="review" params="[id: correction.id]">review</g:link>
 				</h4>
 			</g:each>

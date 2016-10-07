@@ -3,6 +3,7 @@ package com.tccs
 import static org.springframework.http.HttpStatus.*
 import org.springframework.security.access.annotation.Secured
 import grails.plugin.springsecurity.SpringSecurityService
+import com.tccs.type.StatusType
 
 class CorrectionController {
     CorrectionService correctionService
@@ -23,8 +24,6 @@ class CorrectionController {
 
     @Secured(['ROLE_USER'])
     def save() {
-        println springSecurityService.getCurrentUser()
-
         Date dateTimeCorrection = stringToDate(params.dateTimeCorrection)
         String reason = params.reason
         String entryRequired = params.entryRequired
@@ -46,5 +45,25 @@ class CorrectionController {
     @Secured(['ROLE_USER'])
     def uploadProof() {
         
+    }
+
+    @Secured(['ROLE_USER'])
+    def review() {
+        def id = params.id
+        Correction correction = Correction.get(id)
+        def user = springSecurityService.currentUser
+        Set<Role> roles = user.authorities
+
+        render(view: 'review', model:[correction: correction, roles: roles*.authority])
+    }
+
+    @Secured(['ROLE_HEAD', 'ROLE_ADMIN'])
+    def update() {
+        def status = params.statusChange as StatusType
+        def id = params.id as Long
+
+        correctionService.updateCorrection(id, status)
+        flash.message = "Successfully Updated"
+        redirect(action: "review", params: [id: id])
     }
 }

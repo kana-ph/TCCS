@@ -5,9 +5,11 @@ import org.springframework.security.access.annotation.Secured
 import com.tccs.type.RoleAuthority
 import grails.validation.ValidationException
 import com.tccs.exception.InvalidInputException
+import grails.plugin.springsecurity.SpringSecurityService
 
 class UserController {
     UserService userService
+    def springSecurityService
 
     @Secured(['ROLE_ADMIN'])
     def save(){
@@ -35,10 +37,13 @@ class UserController {
     @Secured(['ROLE_ADMIN'])
     def create(){ }
 
-    @Secured(['ROLE_ADMIN'])
+    @Secured(['ROLE_ADMIN', 'ROLE_HEAD'])
     def index(){ 
+        def user = springSecurityService.currentUser
+        Set<Role> roles = user.authorities
         def users = User.list()
-        [users: users]
+
+        [users: users, user: user, roles: roles*.authority]
     }
 
     @Secured(['ROLE_ADMIN'])

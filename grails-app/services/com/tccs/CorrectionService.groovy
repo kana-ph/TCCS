@@ -20,4 +20,12 @@ class CorrectionService {
 
 		return correction
 	}
+
+	Correction updateCorrection(Long id, StatusType status) {
+
+		def correction = Correction.get(id)
+		correction.status = status
+
+		correction.save(failOnError: true, flush: true)
+	}
 }

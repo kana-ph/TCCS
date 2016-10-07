@@ -43,7 +43,7 @@
 							</tr>
 							<tr>
 								<td>
-									<label for="comment">Correct date and time: </label>
+									<label for="dateTimeCorrection">Correct date and time: </label>
 								</td>
 								<td>
 									<div class="container">
