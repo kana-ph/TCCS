@@ -122,6 +122,7 @@ grails.plugin.springsecurity.userLookup.userDomainClassName = 'com.tccs.User'
 grails.plugin.springsecurity.userLookup.authorityJoinClassName = 'com.tccs.UserRole'
 grails.plugin.springsecurity.authority.className = 'com.tccs.Role'
 grails.plugin.springsecurity.securityConfigType = "Annotation"
+grails.plugin.springsecurity.logout.afterLogoutUrl = "/home/front"
 grails.plugin.springsecurity.controllerAnnotations.staticRules = [
 	// '/':                ['permitAll']
  //    '/user/':           ['permitAll']

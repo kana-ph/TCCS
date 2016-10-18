@@ -10,7 +10,7 @@
  			<fieldset>
  				<legend>Create User</legend>
  				<g:form controller="user" action="save">
- 					<table style="width: 20%;">
+					<table style="width: 20%; border-spacing: 5px; border-collapse: separate;">
  						<tbody>
  							<tr>
  								<td>

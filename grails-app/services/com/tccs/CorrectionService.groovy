@@ -2,11 +2,13 @@ package com.tccs
 
 import grails.transaction.Transactional
 import com.tccs.type.StatusType
+import com.tccs.type.ReasonType
+import com.tccs.type.EntryType
 
 @Transactional
 class CorrectionService {
 
-	Correction saveCorrection(Date dateTimeCorrection, String reason, String entryRequired, String comment, User user) {
+	Correction saveCorrection(Date dateTimeCorrection, ReasonType reason, EntryType entryRequired, String comment, User user) {
 
 		def correction = new Correction(
 										dateTimeCorrection: dateTimeCorrection,
@@ -16,7 +18,7 @@ class CorrectionService {
 										status: StatusType.STATUS_PENDING,
 										user: user)
 
-		correction.save(failOnError: true)
+		correction.save(failOnError: true, flush: true)
 
 		return correction
 	}

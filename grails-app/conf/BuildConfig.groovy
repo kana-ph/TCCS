@@ -63,6 +63,7 @@ grails.project.dependency.resolution = {
         compile ':cache:1.1.8'
         compile ":asset-pipeline:2.1.5"
         compile "org.grails.plugins:spring-security-core:2.0.0"
+        compile "org.grails.plugins:sass-asset-pipeline:2.11.0"
         
         // plugins needed at runtime but not for compilation
         runtime ":hibernate4:4.3.8.1" // or ":hibernate:3.6.10.18"
@@ -78,5 +79,8 @@ grails.project.dependency.resolution = {
         //test data builder plugin
         compile ':build-test-data:2.4.0'
         compile "org.grails.plugins:extra-validators:0.2"
+
+        // grails uploadr
+        compile "org.grails.plugins:uploadr:1.2.11"
     }
 }

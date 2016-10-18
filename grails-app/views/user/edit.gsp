@@ -9,9 +9,8 @@
 		<div>
 			<fieldset>
 				<legend>Edit User</legend>
-				%{-- <g:set var="user" value="${user}" /> --}%
 				<g:form controller="user" action="update" id="${user.id}">
-					<table style="width: 20%;">
+					<table style="width: 20%; border-spacing: 5px; border-collapse: separate;">
 						<tbody>
 							<tr>
 								<td>
@@ -90,7 +89,7 @@
 									<label>Role:<label />
 								</td>
 								<td>
-									<span>${roleAdmin} ${roleHead} ${auths}</span><br>
+									%{-- <span>${roleAdmin} ${roleHead} ${auths}</span><br> --}%
 									<g:checkBox name="roleAdmin" value="${roleAdmin}" />
 									<label for="roleAdmin">${RoleAuthority.ROLE_ADMIN.name}</label>
 									<br />
@@ -102,9 +101,9 @@
 					</table>
 					<g:submitButton name="update" value="Update" />
 					<div class="alert alert-error" style="display: block">
-						<g:eachError bean="${user}">
+						%{-- <g:eachError bean="${user}">
 							<li>${it}</li>
-						</g:eachError>
+						</g:eachError> --}%
 					</div>
 						<g:if test="${flash.message}">
 							<div class="message" style="display: block">${flash.message}</div>

@@ -12,7 +12,6 @@ class Correction {
     String comment
     StatusType status
     User user
-    // ReasonType reason
 
     static hasMany = [proofs: Proof]
 
@@ -21,8 +20,9 @@ class Correction {
     }
     static constraints = {
         dateTimeCorrection blank: false, nullable: false
+        reason nullable: false
+        entryRequired nullable: false
         comment maxSize: 1000, blank: true, nullable: true
-        proofs nullable: true
         user nullable: false
     }
 }
