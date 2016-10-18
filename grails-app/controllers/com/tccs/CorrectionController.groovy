@@ -12,7 +12,6 @@ import com.tccs.exception.InvalidSelectionException
 class CorrectionController {
     CorrectionService correctionService
     def springSecurityService
-    ProofService proofService
 
     @Secured(['ROLE_USER'])
     def createOne() {
@@ -27,17 +26,9 @@ class CorrectionController {
 
         List files = request.getFiles('proof')
 
-        Correction correction = correctionService
-        .saveCorrection(stringToDate(params.dateTimeCorrection), ReasonType.valueOf(params.reason), EntryType.valueOf(params.entryRequired), params.comment, user)
-
-        files.each { file->
-            if(file.originalFilename.endsWith(".png") || file.originalFilename.endsWith(".jpg")) {
-                proofService.createFile(correction, file.originalFilename, file.bytes)
-                flash.message = "Successfully Sent"
-            }else {
-                throw new IllegalArgumentException()
-                // flash.message = "Only PNG or JPEG files please."
-            }
+        if (correctionService
+        .saveCorrection(stringToDate(params.dateTimeCorrection), ReasonType.valueOf(params.reason), EntryType.valueOf(params.entryRequired), params.comment, user, files)){
+            flash.message = "Successfully Sent"
         }
 
         redirect(action: "createOne")
