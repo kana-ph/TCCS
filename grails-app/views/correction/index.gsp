@@ -36,7 +36,7 @@
 								<g:else>
 									<td>${correction.status.name}</td>
 								</g:else>
-								<td><g:link controller="correction" action="view" params="[id: correction.id]">View</g:link></td>
+								<td><g:link controller="correction" action="view" params="[id: correction.id]"><i class="glyphicon glyphicon-eye-open"></i>&nbsp;View</g:link></td>
 							</g:if>
 						</sec:ifNotGranted>
 						%{-- If current user is administrator role --}%
@@ -52,7 +52,7 @@
 							<g:else>
 								<td>${correction.status.name}</td>
 							</g:else>
-							<td><g:link controller="correction" action="review" params="[id: correction.id]">Review</g:link></td>
+							<td><g:link controller="correction" action="review" params="[id: correction.id]"><i class="glyphicon glyphicon-list-alt"></i>&nbsp;Review</g:link></td>
 						</sec:ifAnyGranted>
 						%{-- If current user is only head role --}%
 						<sec:ifAnyGranted roles='ROLE_HEAD'>
@@ -69,7 +69,7 @@
 									<g:else>
 										<td>${correction.status.name}</td>
 									</g:else>
-									<td><g:link controller="correction" action="review" params="[id: correction.id]">Review</g:link></td>
+									<td><g:link controller="correction" action="review" params="[id: correction.id]"><i class="glyphicon glyphicon-list-alt"></i>&nbsp;Review</g:link></td>
 								</g:if>
 							</sec:ifNotGranted>
 						</sec:ifAnyGranted>
