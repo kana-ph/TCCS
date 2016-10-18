@@ -77,7 +77,7 @@
 								</g:if>
 								<g:elseif test="${i != 0}">
 									<div class="item">
-								</g:elseif>	
+								</g:elseif>
 									<img src="data:image/png;base64,${proof.fileData.encodeBase64()}"/>
 								</div>
 							</g:each>
@@ -90,7 +90,7 @@
 						    <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
 						    <span class="sr-only">Next</span>
 						</a>
-					</div>			
+					</div>
 					<br />
 					<br />
 					<sec:ifAnyGranted roles='ROLE_ADMIN,ROLE_HEAD'>
