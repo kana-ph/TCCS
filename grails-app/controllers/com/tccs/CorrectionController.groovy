@@ -45,8 +45,9 @@ class CorrectionController {
 
     @Secured(['ROLE_USER'])
     def index() {
+        User currentUser = springSecurityService.currentUser
         def corrections = Correction.list()
-        [corrections: corrections]
+        [corrections: corrections, currentUser: currentUser]
     }
 
     @Secured(['ROLE_USER'])

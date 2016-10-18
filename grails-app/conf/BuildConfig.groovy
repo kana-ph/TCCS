@@ -80,7 +80,11 @@ grails.project.dependency.resolution = {
         compile ':build-test-data:2.4.0'
         compile "org.grails.plugins:extra-validators:0.2"
 
-        // grails uploadr
+        //grails uploadr
         compile "org.grails.plugins:uploadr:1.2.11"
+
+        //grails mail plugin
+        compile "org.grails.plugins:mail:1.0.7"
+
     }
 }
