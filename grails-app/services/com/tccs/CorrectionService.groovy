@@ -7,8 +7,9 @@ import com.tccs.type.EntryType
 
 @Transactional
 class CorrectionService {
+	ProofService proofService
 
-	Correction saveCorrection(Date dateTimeCorrection, ReasonType reason, EntryType entryRequired, String comment, User user) {
+	Correction saveCorrection(Date dateTimeCorrection, ReasonType reason, EntryType entryRequired, String comment, User user, List files) {
 
 		def correction = new Correction(
 										dateTimeCorrection: dateTimeCorrection,
@@ -18,7 +19,17 @@ class CorrectionService {
 										status: StatusType.STATUS_PENDING,
 										user: user)
 
-		correction.save(failOnError: true, flush: true)
+		files.each { file->
+            if(file.originalFilename.endsWith(".png") || file.originalFilename.endsWith(".jpg")) {
+                proofService.createFile(correction, file.originalFilename, file.bytes)
+                // flash.message = "Successfully Sent"
+            }else {
+                throw new IllegalArgumentException()
+                // flash.message = "Only PNG or JPEG files please."
+            }
+        }
+
+		correction.save(failOnError: true)
 
 		return correction
 	}
@@ -33,5 +44,6 @@ class CorrectionService {
 
 	List<Correction> fetchCorrectionsVisibleToUser(User user) {
 		List<Role> roles = user.authorities
+
 	}
 }
