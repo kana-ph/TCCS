@@ -10,7 +10,7 @@
 		<fieldset>
 			<legend>Corrections</legend>
 			<h4>
-				<g:each in="${corrections}" var="correction">
+				<g:each in="${corrections}" var="correction" status="i">
 					%{-- If current user is only user role --}%
 					<sec:ifNotGranted roles='ROLE_ADMIN,ROLE_HEAD'>
 						<g:if test="${correction.user == currentUser}">
@@ -32,6 +32,7 @@
 							</g:if>
 						</sec:ifNotGranted>
 					</sec:ifAnyGranted>
+					<br />
 					%{-- <g:link controller="correction" action="review" params="[id: correction.id]">
 					<sec:ifAnyGranted roles='ROLE_ADMIN,ROLE_HEAD'>review</sec:ifAnyGranted>
 					<sec:ifNotGranted roles='ROLE_ADMIN,ROLE_HEAD'>view</sec:ifNotGranted>

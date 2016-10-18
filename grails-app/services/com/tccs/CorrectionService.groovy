@@ -30,4 +30,8 @@ class CorrectionService {
 
 		correction.save(failOnError: true, flush: true)
 	}
+
+	List<Correction> fetchCorrectionsVisibleToUser(User user) {
+		List<Role> roles = user.authorities
+	}
 }
