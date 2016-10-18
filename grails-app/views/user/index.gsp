@@ -13,6 +13,7 @@
 					<th>Username</th>
 					<th>Name</th>
 					<th>Department</th>
+					<th>Controls</th>
 				</tr>
 			</thead>
 			<tbody>
@@ -22,6 +23,7 @@
 						<td>${user.username}</td>
 						<td>${user.lastName}, ${user.firstName} ${user.middleName}</td>
 						<td>${user.department}</td>
+						<td><g:link controller="user" action="edit" params="[id: user.id]"><i class="glyphicon glyphicon-pencil"></i>&nbsp;Edit</g:link></td>
 					</tr>
 				</g:each>
 			</tbody>
