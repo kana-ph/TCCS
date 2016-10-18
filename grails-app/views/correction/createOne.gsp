@@ -10,8 +10,8 @@
 		<div>
 			<fieldset>
 				<legend>Create Correction</legend>
-				<g:form controller="correction" action="save">
-					<table style="width: 20%;">
+				<g:uploadForm controller="correction" action="save" >
+					<table style="width: 80%; border-spacing: 5px; border-collapse: separate;">
 						<tbody>
 							<tr>
 								<td>
@@ -67,24 +67,58 @@
 							</tr>
 							<tr>
 								<td>
-									<g:actionSubmit value="Upload Proof" action="uploadProof"/>
+									<label for="comment">Add Proof: </label>
+								</td>
+								<td>
+									<div class="container">
+									    <div class="row">
+									        <div class='col-sm-4'>
+												<input type="file" name="proof" multiple>
+											</div>
+										</div>
+									</div>			
 								</td>
 							</tr>
+							%{-- <tr>
+								<td>
+									<label for="comment">Add Proof: </label>
+								</td>
+								<td>
+									<div class="container">
+									    <div class="row">
+									        <div class='col-sm-4'>
+												<input type="file" name="file">
+											</div>
+										</div>
+									</div>			
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<label for="comment">Add Proof: </label>
+								</td>
+								<td>
+									<div class="container">
+									    <div class="row">
+									        <div class='col-sm-4'>
+												<input type="file" name="file">
+											</div>
+										</div>
+									</div>							
+								</td>
+							</tr> --}%
 						</tbody>
 					</table>
-					<br />
-					<br />
-					<br />
-					<g:submitButton name="save" value="Submit"/>
-					%{-- <div class="alert alert-error" style="display: block">
-						<g:eachError bean="${user}">
-							<li>${it}</li>
-						</g:eachError>
-					</div> --}%
+					%{-- <uploadr:add name="myUploadrName" path="/my/upload/path" direction="up" maxVisible="8" unsupported="/my/controller/action" rating="true" voting="true" colorPicker="true" maxSize="204800" /> --}%
+					<g:submitButton name="save" value="Save"/>
 					<g:if test="${flash.message}">
 						<div class="message" style="display: block">${flash.message}</div>
 					</g:if>
-				</g:form>
+				</g:uploadForm>
+				%{-- <label style="font-size: 16px;">Upload proof/s:</label>
+				<g:form action="upload" controller="proof" class="dropzone" id="proof" style="width: 35%" params:"${correction.id}"></g:form>
+				<br />
+				<br /> --}%
 			</fieldset>
 		</div>
 		 <script type="text/javascript">
@@ -93,6 +127,23 @@
 					sideBySide: true
                 });
             });
+   //          Dropzone.options.dzForm = {
+			// 	autoProcessQueue: false,
+			// 	uploadMultiple: true,
+
+			// 	parallelUploads: 2,
+			// 	maxFiles: 3,
+			// 	init: function() {
+			// 		var dz = this;
+					
+			// 		this.element.querySelector("button[type=submit]")
+			// 		.addEventListener("click", function(e) {
+			// 			e.preventDefault();
+			// 			e.stopPropagation();
+			// 			dz.processQueue();
+			// 		});
+			// 	}
+			// }
         </script>
 	</body>
 </html>
