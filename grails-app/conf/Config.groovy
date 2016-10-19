@@ -137,5 +137,21 @@ grails.plugin.springsecurity.controllerAnnotations.staticRules = [
 	'/**/css/**':       ['permitAll'],
 	'/**/images/**':    ['permitAll'],
 	'/**/favicon.ico':  ['permitAll']
+
+
 ]
+//Added for mail plugin
+grails {
+    mail {
+        host = "smtp.gmail.com"
+        port = 465
+        username = "kenichigouang@gmail.com"
+        password = "InnaGwapa11790"
+        props = ["mail.transport.protocol":"smtps",
+                "mail.smtp.auth":"true",
+                "mail.smtp.socketFactory.port":"465",
+                "mail.smtp.socketFactory.class":"javax.net.ssl.SSLSocketFactory",
+                "mail.smtp.socketFactory.fallback":"false"]
+    }
+}
 

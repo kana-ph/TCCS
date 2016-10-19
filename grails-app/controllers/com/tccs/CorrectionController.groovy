@@ -12,12 +12,17 @@ import com.tccs.exception.InvalidSelectionException
 class CorrectionController {
     CorrectionService correctionService
     def springSecurityService
+    def mailService
 
     @Secured(['ROLE_USER'])
     def createOne() {
-
+        // mailService.sendMail {
+        //     to "kenichi.uang@synacy.com"
+        //     subject "HelloWorld"
+        //     body "Hello"
+        // }
+        // println "send message"
     }
-
 
     @Secured(['ROLE_USER'])
     def save() {
@@ -37,8 +42,10 @@ class CorrectionController {
     @Secured(['ROLE_USER'])
     def index() {
         User currentUser = springSecurityService.currentUser
-        def corrections = Correction.list()
-        [corrections: corrections, currentUser: currentUser]
+        // def corrections = Correction.list()
+        // [corrections: corrections, currentUser: currentUser]
+        def corrections = correctionService.fetchCorrectionsVisibleToUser(currentUser)
+        [corrections: corrections]
     }
 
     @Secured(['ROLE_USER'])
