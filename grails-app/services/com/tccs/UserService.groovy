@@ -2,6 +2,7 @@ package com.tccs
 
 import grails.transaction.Transactional
 import com.tccs.exception.InvalidInputException
+import com.tccs.type.RoleAuthority
 
 @Transactional 
 class UserService {
@@ -49,5 +50,13 @@ class UserService {
 
 	User fetchById(Long id) {
 		return User.get(id)
+	}
+
+	List<User> fetchAllHeadsOfDepartment(String department) {
+		def role = Role.findByAuthority(RoleAuthority.ROLE_HEAD.name())
+		def users = UserRole.findAllByRole(role)*.user
+		return users.findAll { user ->
+			department == user.department
+		}
 	}
 }
