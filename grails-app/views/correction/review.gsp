@@ -69,30 +69,35 @@
 							</tr>
 						</tbody>
 					</table>
-					<div id="myCarousel" class="carousel slide" data-ride="carousel">
-						<div class="carousel-inner" role="listbox">
-							<g:each in="${correction.proofs}" var="proof" status="i">
-								<g:if test="${i == 0}">
-									<div class="item active">
-								</g:if>
-								<g:elseif test="${i != 0}">
-									<div class="item">
-								</g:elseif>
-								<g:if test="${proof.fileName}">
-									<img src="data:image/png;base64,${proof.fileData.encodeBase64()}"/>
-								</g:if>
-								</div>
-							</g:each>
+					<g:if test="${correction.proofs.size() > 0}">
+						<div id="myCarousel" class="carousel slide" data-ride="carousel">
+							<div class="carousel-inner" role="listbox">
+								<g:each in="${correction.proofs}" var="proof" status="i">
+									<g:if test="${i == 0}">
+										<div class="item active">
+									</g:if>
+									<g:elseif test="${i != 0}">
+										<div class="item">
+									</g:elseif>
+									<g:if test="${proof.fileName}">
+										<img src="data:image/png;base64,${proof.fileData.encodeBase64()}"/>
+									</g:if>
+									</div>
+								</g:each>
+							</div>
+							<a class="left carousel-control" href="#myCarousel" role="button" data-slide="prev">
+								<span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+							    <span class="sr-only">Previous</span>
+							</a>
+							<a class="right carousel-control" href="#myCarousel" role="button" data-slide="next">
+							    <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+							    <span class="sr-only">Next</span>
+							</a>
 						</div>
-						<a class="left carousel-control" href="#myCarousel" role="button" data-slide="prev">
-							<span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
-						    <span class="sr-only">Previous</span>
-						</a>
-						<a class="right carousel-control" href="#myCarousel" role="button" data-slide="next">
-						    <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
-						    <span class="sr-only">Next</span>
-						</a>
-					</div>
+					</g:if>
+					<g:else>
+						No Uploaded File.
+					</g:else>
 					<br />
 					<br />
 					<sec:ifAnyGranted roles='ROLE_ADMIN,ROLE_HEAD'>
