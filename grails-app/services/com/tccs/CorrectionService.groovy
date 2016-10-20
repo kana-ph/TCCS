@@ -57,7 +57,8 @@ class CorrectionService {
 			return Correction.list()
 		}
 		else if(roleAuthorities.contains(RoleAuthority.ROLE_HEAD)) {
-			return Correction.executeQuery("FROM Correction AS c INNER JOIN c.user AS u WHERE u.department = :department AND username = :username", [department: user.department, username: user.username])
+			def users = User.findAllByDepartment(user.department)
+			return Correction.findAllByUserInList(users)
 		}
 		else if(roleAuthorities.contains(RoleAuthority.ROLE_USER)) {
 			return Correction.findAllByUser(user)
