@@ -78,7 +78,9 @@
 								<g:elseif test="${i != 0}">
 									<div class="item">
 								</g:elseif>
+								<g:if test="${proof.fileName}">
 									<img src="data:image/png;base64,${proof.fileData.encodeBase64()}"/>
+								</g:if>
 								</div>
 							</g:each>
 						</div>

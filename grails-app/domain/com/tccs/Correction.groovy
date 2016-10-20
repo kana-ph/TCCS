@@ -24,5 +24,6 @@ class Correction {
         entryRequired nullable: false
         comment maxSize: 1000, blank: true, nullable: true
         user nullable: false
+        proofs nullable: true
     }
 }

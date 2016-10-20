@@ -21,14 +21,18 @@ class CorrectionService {
 										user: user)
 
 		files.each { file->
-            if(file.originalFilename.endsWith(".png") || file.originalFilename.endsWith(".jpg")) {
-                proofService.createFile(correction, file.originalFilename, file.bytes)
-                // flash.message = "Successfully Sent"
-            }else {
-                throw new IllegalArgumentException()
-                // flash.message = "Only PNG or JPEG files please."
-            }
-        }
+			proofService.createFile(correction, file.originalFilename, file.bytes)
+		}
+
+		// files.each { file->
+  //           if(file.originalFilename.endsWith(".png") || file.originalFilename.endsWith(".jpg")) {
+		// 		proofService.createFile(correction, file.originalFilename, file.bytes)
+  //               // flash.message = "Successfully Sent"
+  //           }else {
+  //               throw new IllegalArgumentException()
+  //               // flash.message = "Only PNG or JPEG files please."
+  //           }
+  //       }
 
 		correction.save(failOnError: true)
 

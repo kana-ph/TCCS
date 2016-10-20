@@ -8,6 +8,7 @@ class Proof {
 	static belongsTo = [correction: Correction]
 
     static constraints = {
-    	fileData maxSize: 5242880 //5MB
+		fileData maxSize: 5242880, contentType: ['image/jpg', 'image/png'], nullable: true
+		fileName nullable: true
     }
 }
