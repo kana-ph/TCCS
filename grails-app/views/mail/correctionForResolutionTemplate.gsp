@@ -1,0 +1,1 @@
+${firstName} ${lastName} has sent you a reviewed correction that requires your <a href=""><strong>resolution</strong></a>.
