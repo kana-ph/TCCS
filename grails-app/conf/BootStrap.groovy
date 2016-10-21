@@ -11,8 +11,8 @@ class BootStrap {
     	def headRole = new Role(authority: "ROLE_HEAD").save(failOnError: true)
     	
         def admin = new User(firstName: 'I', middleName: 'am', lastName: 'admin', username: 'admin', password: 'password', email: 'admin@synacy.com', position: 'administrator', department: 'admin').save(failOnError: true, flush: true)
-        def head1 = new User(firstName: 'head', middleName: 'of', lastName: 'department', username: 'head1', password: 'password', email: 'head1@synacy.com', position: 'department head', department: 'App Dev').save(failOnError: true, flush: true)
-        def head2 = new User(firstName: 'head', middleName: 'of', lastName: 'department', username: 'head2', password: 'password', email: 'head2@synacy.com', position: 'department head', department: 'HR').save(failOnError: true, flush: true)
+        def head1 = new User(firstName: 'head', middleName: 'of', lastName: 'department', username: 'head1', password: 'password', email: 'kenichigouang@gmail.com', position: 'department head', department: 'App Dev').save(failOnError: true, flush: true)
+        def head2 = new User(firstName: 'head', middleName: 'of', lastName: 'department', username: 'head2', password: 'password', email: 'head2@gmail.com', position: 'department head', department: 'HR').save(failOnError: true, flush: true)
         def user1 = new User(firstName: 'Kenichi', middleName: 'Go', lastName: 'Uang', username: 'kenichi.uang', password: 'password', email: 'kenichi.uang@synacy.com', position: 'Intern', department: 'App Dev').save(failOnError: true, flush: true)
         def user2 = new User(firstName: 'Kenyashi', middleName: 'Go', lastName: 'Uang', username: 'kenyashi.uang', password: 'password', email: 'kenyashi.uang@synacy.com', position: 'Intern', department: 'HR').save(failOnError: true, flush: true)
         
