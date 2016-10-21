@@ -11,17 +11,11 @@ import com.tccs.exception.InvalidSelectionException
 
 class CorrectionController {
     CorrectionService correctionService
+    UserService userService
     def springSecurityService
-    def mailService
 
     @Secured(['ROLE_USER'])
     def createOne() {
-        // mailService.sendMail {
-        //     to "kenichi.uang@synacy.com"
-        //     subject "HelloWorld"
-        //     body "Hello"
-        // }
-        // println "send message"
     }
 
     @Secured(['ROLE_USER'])
@@ -29,7 +23,10 @@ class CorrectionController {
 
         User user = springSecurityService.currentUser
 
-        List files = request.getFiles('proof')
+        List files = request.getFiles('proof').findAll { file ->
+            !file.empty
+        }
+
 
         if (correctionService
         .saveCorrection(stringToDate(params.dateTimeCorrection), ReasonType.valueOf(params.reason), EntryType.valueOf(params.entryRequired), params.comment, user, files)){
@@ -81,11 +78,13 @@ class CorrectionController {
     // }
 
     def handleIllegalArgumentException(IllegalArgumentException e) {
+        e.printStackTrace(System.err)
         flash.message = "Invalid input"
         redirect(action: "createOne")
     }
 
     def handleParseException(java.text.ParseException e) {
+        e.printStackTrace(System.err)
         flash.message = "Invalid input"
         redirect(action: "createOne")
     }

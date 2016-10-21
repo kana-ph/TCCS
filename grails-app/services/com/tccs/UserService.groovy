@@ -52,11 +52,30 @@ class UserService {
 		return User.get(id)
 	}
 
-	List<User> fetchAllHeadsOfDepartment(String department) {
+	User fetchHeadOfDepartment(String department) {
 		def role = Role.findByAuthority(RoleAuthority.ROLE_HEAD.name())
 		def users = UserRole.findAllByRole(role)*.user
-		return users.findAll { user ->
+		return users.find { user ->
 			department == user.department
 		}
 	}
+
+	User fetchAdmin() {
+		def role = Role.findByAuthority(RoleAuthority.ROLE_ADMIN.name())
+		return user = UserRole.findByRole(role).user
+	}
+
+	// List<User> fetchAllHeadsOfDepartment(String department) {
+	// 	def role = Role.findByAuthority(RoleAuthority.ROLE_HEAD.name())
+	// 	def users = UserRole.findAllByRole(role)*.user
+	// 	return users.findAll { user ->
+	// 		department == user.department
+	// 	}
+	// }
+
+	// List<User> fetchAllAdmins() {
+	// 	def role = Role.findByAuthority(RoleAuthority.ROLE_ADMIN.name())
+	// 	def users = UserRole.findAllByRole(role)*.user
+	// 	return users
+	// }
 }

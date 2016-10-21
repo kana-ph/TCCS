@@ -9,6 +9,7 @@ import com.tccs.type.RoleAuthority
 @Transactional
 class CorrectionService {
 	ProofService proofService
+	EmailService emailService
 
 	Correction saveCorrection(Date dateTimeCorrection, ReasonType reason, EntryType entryRequired, String comment, User user, List files) {
 
@@ -20,21 +21,17 @@ class CorrectionService {
 										status: StatusType.STATUS_PENDING,
 										user: user)
 
-		files.each { file->
-			proofService.createFile(correction, file.originalFilename, file.bytes)
+		files.each { file ->
+			if(file.originalFilename.endsWith(".png") || file.originalFilename.endsWith(".jpg")) {
+				proofService.createFile(correction, file.originalFilename, file.bytes)
+			}else {
+                throw new IllegalArgumentException()
+            }
 		}
 
-		// files.each { file->
-  //           if(file.originalFilename.endsWith(".png") || file.originalFilename.endsWith(".jpg")) {
-		// 		proofService.createFile(correction, file.originalFilename, file.bytes)
-  //               // flash.message = "Successfully Sent"
-  //           }else {
-  //               throw new IllegalArgumentException()
-  //               // flash.message = "Only PNG or JPEG files please."
-  //           }
-  //       }
-
 		correction.save(failOnError: true)
+
+		emailService.sendEmailCorrectionForReview(correction)
 
 		return correction
 	}

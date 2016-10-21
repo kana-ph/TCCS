@@ -61,7 +61,7 @@
 							</tr>
 							<tr>
 								<td>
-									<label for="status">Relevant files: </label>
+									<label for="files">Relevant files: </label>
 								</td>
 								<td>
 
@@ -96,7 +96,7 @@
 						</div>
 					</g:if>
 					<g:else>
-						No Uploaded File.
+						&nbsp&nbsp&nbspNo Uploaded File
 					</g:else>
 					<br />
 					<br />
