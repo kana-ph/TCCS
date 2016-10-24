@@ -29,7 +29,7 @@ class CorrectionService {
             }
 		}
 
-		correction.save(failOnError: true)
+		correction.save(failOnError: true, flush: true)
 
 		emailService.sendEmailCorrectionForReview(correction)
 
@@ -42,6 +42,13 @@ class CorrectionService {
 		correction.status = status
 
 		correction.save(failOnError: true, flush: true)
+
+		if(correction.status == StatusType.STATUS_APPROVED || correction.status == StatusType.STATUS_DENIED) {
+			emailService.sendEmailCorrectionForResolution(correction)
+		}
+		else if (correction.status == StatusType.STATUS_RESOLVEDAPPROVED || correction.status == StatusType.STATUS_RESOLVEDDENIED) {
+			emailService.sendEmailCorrectionResolved(correction)
+		}
 
 		return correction
 	}
