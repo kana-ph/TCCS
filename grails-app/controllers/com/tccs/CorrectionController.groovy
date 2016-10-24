@@ -33,7 +33,7 @@ class CorrectionController {
             flash.message = "Successfully Sent"
         }
 
-        redirect(action: "createOne")
+        redirect(action: "index")
     }
 
     @Secured(['ROLE_USER'])
@@ -62,7 +62,8 @@ class CorrectionController {
 
         correctionService.updateCorrection(id, status)
         flash.message = "Successfully Updated"
-        redirect(action: "review", params: [id: id])
+
+        redirect(action: "index")
     }
 
     // @Secured(['ROLE_USER'])
@@ -78,13 +79,11 @@ class CorrectionController {
     // }
 
     def handleIllegalArgumentException(IllegalArgumentException e) {
-        e.printStackTrace(System.err)
         flash.message = "Invalid input"
         redirect(action: "createOne")
     }
 
     def handleParseException(java.text.ParseException e) {
-        e.printStackTrace(System.err)
         flash.message = "Invalid input"
         redirect(action: "createOne")
     }
