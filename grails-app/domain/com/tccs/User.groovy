@@ -6,7 +6,6 @@ import groovy.transform.EqualsAndHashCode
 class User implements Serializable {
 
 	transient springSecurityService
-	transient passwordConfirm
 
 	String username
 	String password
@@ -60,12 +59,11 @@ class User implements Serializable {
 		middleName nullable: true, blank: false
 		lastName nullable: true, blank: false
 		username nullable: false, blank: false, unique: true
-		password password: true, nullable: false, blank: false, minSize: 8//, confirmedPassword: 'confirmPassword'//, validator: { password, obj ->
-		// 	def passwordConfirm = obj.properties['passwordConfirm']
-		// 	if(passwordConfirm != password){
-		// 		return false
-		// 	}
-		// }
+		password password: true, nullable: false, blank: false, minSize: 8, validator: {password, obj ->
+																							def confirmPassword = obj.properties['confirmPassword']
+																							if(confirmPassword == null) return true // skip matching password validation (only important when setting/resetting pass)
+																							confirmPassword == password ? true : ['invalid.matchingpasswords']
+																						}
 		email email: true, nullable: true, blank: false, unique: true
 		position nullable: true, blank: false
 		department nullable: true, blank: false

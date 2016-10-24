@@ -2,28 +2,36 @@ package com.tccs
 
 import grails.transaction.Transactional
 import com.tccs.exception.InvalidInputException
+import com.tccs.exception.PasswordMismatchException
 import com.tccs.type.RoleAuthority
 
 @Transactional 
 class UserService {
 	UserRoleService userRoleService
-	User saveUser(String firstName, String middleName, String lastName, String username, String password, String email, String position, String department, List roles) {
+	User saveUser(String firstName, String middleName, String lastName, String username, String password, String confirmPassword, String email, String position, String department, List roles) {
 			def user = new User(
 							firstName: firstName,
                             middleName: middleName,
                             lastName: lastName,
                             username: username,
                             password: password,
+                            confirmPassword: confirmPassword,
                             email: email,
                             position: position,
                             department: department)
 		
-		if(user.validate()) {
-			user.save(failOnError: true)
-			userRoleService.saveUserRole(user, roles as Set)
-		} else {
-			throw new InvalidInputException ()
-		}
+			// if(user.validate()) {
+			// 	user.save(failOnError: true)
+			// 	userRoleService.saveUserRole(user, roles as Set)
+			// } else {
+			// 	throw new InvalidInputException()
+			// }
+
+			if(password == confirmPassword){
+				user.save(failOnError: true, flush: true)
+			} else {
+				throw new PasswordMismatchException()
+			}
 
 		return user
 	}
@@ -38,11 +46,11 @@ class UserService {
 		user.department = department
 
 		if(user.validate(['firstName', 'middleName', 'lastName', 'username', 'email', 'position', 'department'])) {
-			user.save(failOnError: true)
+			user.save(failOnError: true, flush: true)
 			userRoleService.updateUserRole(user, roles as Set)
 		} else {
 			user.errors.allErrors.each{ println it }
-			throw new InvalidInputException ()
+			throw new InvalidInputException()
 		}
 
 		return user
@@ -62,7 +70,8 @@ class UserService {
 
 	User fetchAdmin() {
 		def role = Role.findByAuthority(RoleAuthority.ROLE_ADMIN.name())
-		return user = UserRole.findByRole(role).user
+		def user = UserRole.findByRole(role).user
+		return user
 	}
 
 	// List<User> fetchAllHeadsOfDepartment(String department) {

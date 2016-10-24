@@ -9,8 +9,8 @@
  		<div>
  			<fieldset>
  				<legend>Create User</legend>
- 				<g:form controller="user" action="save">
-					<table style="width: 20%; border-spacing: 5px; border-collapse: separate;">
+				<g:form controller="user" action="save" onsubmit="return !!(validate() & checkPassword());">
+					<table style="width: 25%; border-spacing: 5px; border-collapse: separate;">
  						<tbody>
  							<tr>
  								<td>
@@ -49,17 +49,17 @@
  									<label for="password">Password: </label>
  								</td>
  								<td>
- 									<g:passwordField name="password" value="${user?.password}" />
- 								</td>
+									<g:passwordField id="password" name="password" value="${user?.password}" />
+								</td>
  							</tr>
-							%{-- <tr>
+							<tr>
 								<td>
-									<label for="passwordConfirm">Re-type password: </label>
+									<label for="confirmPassword">Confirm password: </label>
 								</td>
 								<td>
-									<g:passwordField name="passwordConfirm" value="${user?.passwordConfirm}" />
+									<g:passwordField id="confirm" name="confirmPassword" value="${user?.confirmPassword}" />
 								</td>
-							</tr> --}%
+							</tr>
 							<tr>
 								<td>
 									<label for="email">Email: </label>
@@ -99,17 +99,40 @@
  						</tbody>
  					</table>				
  					<g:submitButton name="save" value="Save"/>
- 					<div class="alert alert-error" style="display: block">
+					%{-- <div class="alert alert-error" style="display: block">
 	 					<g:eachError bean="${user}">
 	  						<li>${it}</li>
 						</g:eachError>
-					</div>
+					</div> --}%
  					<g:if test="${flash.message}">
-						<div class="message" style="display: block">${flash.message}</div>
+						<div class="row">
+							<div class="message alert alert-danger alert-dismissible col-md-4" role="alert" style="display: block; margin-top: 5px;"><button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>${flash.message}</div>
+						</div>
 					</g:if>
+					<div class="row">
+						<div id="password-mismatch-message" class="message alert alert-danger alert-dismissible col-md-4" role="alert" style="display: none; margin-top: 5px;"><button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>Passwords don't match</div>
+					</div>
  				</g:form>
  			</fieldset>	
  		</div>
-		%{-- <asset:javascript src="application.js" />  --}%
+		<script type="text/javascript">
+			function validate() {
+				var validPassword = checkPassword()
+				return validPassword
+			}
+
+			function checkPassword() {
+				var password = $("#password").val()
+				var confirm = $("#confirm").val()
+				if(password.value == confirm.value){
+					return true
+				} else {
+					$("#password").val("")
+					$("#confirm").val("")
+					$("#password-mismatch-message").css({"display":"block"})
+					return false
+				}
+			}
+        </script>
  	</body>
 </html>

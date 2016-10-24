@@ -5,6 +5,7 @@ import org.springframework.security.access.annotation.Secured
 import com.tccs.type.RoleAuthority
 import grails.validation.ValidationException
 import com.tccs.exception.InvalidInputException
+import com.tccs.exception.PasswordMismatchException
 import grails.plugin.springsecurity.SpringSecurityService
 
 class UserController {
@@ -18,19 +19,14 @@ class UserController {
         String lastName = params.lastName
         String username = params.username
         String password = params.password
-        // String passwordConfirm = params.passwordConfirm
+        String confirmPassword = params.confirmPassword
         String email = params.email
         String position = params.position
         String department = params.department
         List roles = fetchSelectedRoles(params.roleAdmin, params.roleHead)
 
-        try {
-            userService.saveUser(firstName, middleName, lastName, username, password, email, position, department, roles)
-            flash.message = "Successfully Saved"
-            redirect(action: "create")
-        } catch (InvalidInputException e) {
-            flash.message = "Invalid Input"
-            redirect(action: "create")
+        if(userService.saveUser(firstName, middleName, lastName, username, password, confirmPassword, email, position, department, roles)) {
+            redirect(action: "index")
         }
     }
 
@@ -89,5 +85,15 @@ class UserController {
             roles<<RoleAuthority.ROLE_HEAD
         }
         return roles
+    }
+
+    def handleValidationException(ValidationException e) {
+        flash.message = "Invalid input"
+        redirect(action: "create")
+    }
+
+    def handlePasswordMismatchException(PasswordMismatchException e) {
+        flash.message = "Passwords don't match"
+        redirect(action: "create")
     }
 }
