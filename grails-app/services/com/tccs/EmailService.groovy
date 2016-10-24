@@ -1,7 +1,5 @@
 package com.tccs
 
-import com.tccs.type.EmailType
-
 class EmailService {
 
 	def groovyPageRenderer
@@ -15,26 +13,39 @@ class EmailService {
 		User user = correction.user
 		def head = userService.fetchHeadOfDepartment(user.department)
 
-		def content = groovyPageRenderer.render(view: "/mail/correctionForReviewTemplate", model: [correction: correction])
+		// def content = groovyPageRenderer.render(view: "/mail/correctionForReviewTemplate", model: [correction: correction])
 
 		mailService.sendMail {
 			to head.email
 			from DEV_EMAIL
-            subject "Request for time card correction review."
-            html content
+            subject "Request for time card correction review"
+            html groovyPageRenderer.render(view: "/mail/correctionForReviewTemplate", model: [correction: correction])
         }
 	}
 
-	public void sendEmailCorrectionForResolution(User user) {
+	public void sendEmailCorrectionForResolution(Correction correction) {
 
+		User user = correction.user
+		def head = userService.fetchHeadOfDepartment(user.department)
 		def admin = userService.fetchAdmin()
 
 		mailService.sendMail {
 			to admin.email
 			from DEV_EMAIL
-            subject "Request for time card correction resolution."
-            html g.render(template: "mailCorrectionForResolutionTemplate", model: [firstName: user.firstName, lastName: user.lastName])
+            subject "Request for time card correction resolution"
+            html groovyPageRenderer.render(view: "/mail/correctionForResolutionTemplate", model: [correction: correction, head: head])
         }
+	}
+
+	public void sendEmailCorrectionResolved(Correction correction) {
+		User user = correction.user
+
+		mailService.sendMail {
+			to user.email
+			from DEV_EMAIL
+			subject "Correction request results"
+			html groovyPageRenderer.render(view: "/mail/correctionResultTemplate", model: [correction: correction])
+		}
 	}
 
   //   public void sendEmailNotification(EmailType emailType, User user, Correction correction)

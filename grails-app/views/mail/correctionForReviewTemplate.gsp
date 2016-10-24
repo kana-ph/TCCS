@@ -1,1 +1,1 @@
-${correction.user.firstName} ${correction.user.lastName} has sent you a <a href="http://localhost:8080/TCCS/correction/review/${correction.id}"><strong>correction request</strong></a>.
+${correction.user.firstName} ${correction.user.middleName} ${correction.user.lastName} has sent you a <a href="http://localhost:8080/TCCS/correction/review/${correction.id}"><strong>correction request</strong></a>.
