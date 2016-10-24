@@ -10,7 +10,7 @@
 		<div>
 			<fieldset>
 				<legend>Create Correction</legend>
-				<g:uploadForm controller="correction" action="save" >
+				<g:uploadForm controller="correction" action="save" onsubmit="validate()">
 					<table style="width: 80%; border-spacing: 5px; border-collapse: separate;">
 						<tbody>
 							<tr>
@@ -112,7 +112,9 @@
 					%{-- <uploadr:add name="myUploadrName" path="/my/upload/path" direction="up" maxVisible="8" unsupported="/my/controller/action" rating="true" voting="true" colorPicker="true" maxSize="204800" /> --}%
 					<g:submitButton name="save" value="Save"/>
 					<g:if test="${flash.message}">
-						<div class="message" style="display: block">${flash.message}</div>
+						<div class="row">
+							<div class="message alert alert-danger alert-dismissible col-md-4" role="alert" style="display: block; margin-top: 5px;"><button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>${flash.message}</div>
+						</div>
 					</g:if>
 				</g:uploadForm>
 				%{-- <label style="font-size: 16px;">Upload proof/s:</label>
@@ -127,7 +129,11 @@
 					sideBySide: true
                 });
             });
-   //          Dropzone.options.dzForm = {
+
+			function validate() {
+				return false
+			}
+			//Dropzone.options.dzForm = {
 			// 	autoProcessQueue: false,
 			// 	uploadMultiple: true,
 

@@ -106,7 +106,9 @@
 						</g:eachError> --}%
 					</div>
 						<g:if test="${flash.message}">
-							<div class="message" style="display: block">${flash.message}</div>
+							<div class="row">
+								<div class="message alert alert-danger alert-dismissible col-md-4" role="alert" style="display: block; margin-top: 5px;"><button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>${flash.message}</div>
+							</div>
 						</g:if>
 				</g:form>
 			</fieldset>

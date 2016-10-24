@@ -15,9 +15,9 @@
 				<sec:ifNotGranted roles='ROLE_ADMIN,ROLE_HEAD'>
 					<legend>Corrections</legend>
 				</sec:ifNotGranted>
-				<g:form controller="correction" action="update" id="${correction.id}">
+				<g:form controller="correction" action="update" id="${correction.id}" onsubmit="validate()">
 					<g:hiddenField name="id" value="${correction.id}" />
-					<table style="width: 25%;">
+					<table style="width: 30%; border-spacing: 5px; border-collapse: separate;">
 						<tbody>
 							<tr>
 								<td>
@@ -70,7 +70,7 @@
 						</tbody>
 					</table>
 					<g:if test="${correction.proofs.size() > 0}">
-						<div id="myCarousel" class="carousel slide" data-ride="carousel">
+						<div id="myCarousel" class="carousel slide" data-ride="carousel" data-interval="false">
 							<div class="carousel-inner" role="listbox">
 								<g:each in="${correction.proofs}" var="proof" status="i">
 									<g:if test="${i == 0}">
@@ -99,19 +99,70 @@
 						&nbsp&nbsp&nbspNo Uploaded File
 					</g:else>
 					<br />
-					<br />
-					<sec:ifAnyGranted roles='ROLE_ADMIN,ROLE_HEAD'>
-						<g:radioGroup name="statusChange" values="[StatusType.STATUS_APPROVED, StatusType.STATUS_DENIED]" labels="['Approve', 'Deny']">
-							<g:message code="${it.label}" /> ${it.radio}
-						</g:radioGroup>
-						<br />
-						<br />
-							<g:submitButton name="submit" value="Submit" />
-					</sec:ifAnyGranted>
+					<g:if test="${correction.status != StatusType.STATUS_RESOLVEDAPPROVED && correction.status != StatusType.STATUS_RESOLVEDDENIED}">
+						%{-- if user is both head and admin --}%
+						<sec:ifAllGranted roles='ROLE_HEAD,ROLE_ADMIN'>
+							<h3><strong>
+							<g:hiddenField name="statusChange" value="" />
+							<div class="btn-group" role="group" aria-label="...">
+								<p>
+									<button type="button" class="btn btn-success btn-lg" onclick="setStatus('STATUS_RESOLVEDAPPROVED')"><i class="glyphicon glyphicon-ok"></i> Approve</button>
+									<button type="button" class="btn btn-danger btn-lg" onclick="setStatus('STATUS_RESOLVEDDENIED')"><i class="glyphicon glyphicon-remove"></i> Deny</button>
+								</p>
+							</div>
+							</h3></strong>
+							<g:submitButton name="submit" value="Resolve" class="btn btn-default btn-lg" />
+						</sec:ifAllGranted>
+						%{-- if user is only head --}%
+						<sec:ifAnyGranted roles='ROLE_HEAD'>
+							<sec:ifNotGranted roles='ROLE_ADMIN'>
+								<h3><strong>
+								<g:hiddenField name="statusChange" value="" />
+								<div class="btn-group" role="group" aria-label="...">
+									<p>
+										<button type="button" class="btn btn-success btn-lg" onclick="setStatus('STATUS_APPROVED')"><i class="glyphicon glyphicon-ok"></i> Approve</button>
+										<button type="button" class="btn btn-danger btn-lg" onclick="setStatus('STATUS_DENIED')"><i class="glyphicon glyphicon-remove"></i> Deny</button>
+									</p>
+								</div>
+								</h3></strong>
+								<g:submitButton name="submit" value="Submit" class="btn btn-default btn-lg" />
+							</sec:ifNotGranted>
+						</sec:ifAnyGranted>
+						%{-- if user is only admin --}%
+						<sec:ifAnyGranted roles='ROLE_ADMIN'>
+							<sec:ifNotGranted roles='ROLE_HEAD'>
+								<g:if test="${correction.status != StatusType.STATUS_PENDING}">
+									<h3><strong>
+									<g:hiddenField name="statusChange" value="" />
+									<div class="btn-group" role="group" aria-label="...">
+										<p>
+											<button type="button" class="btn btn-success btn-lg" onclick="setStatus('STATUS_RESOLVEDAPPROVED')"><i class="glyphicon glyphicon-ok"></i> Approve</button>
+											<button type="button" class="btn btn-danger btn-lg" onclick="setStatus('STATUS_RESOLVEDDENIED')"><i class="glyphicon glyphicon-remove"></i> Deny</button>
+										</p>
+									</div>
+									</h3></strong>
+									<g:submitButton name="submit" value="Resolve" class="btn btn-default btn-lg" />
+								</g:if>
+								<g:else>
+									<em>Requires review from department head.</em>
+								</g:else>
+							</sec:ifNotGranted>
+						</sec:ifAnyGranted>
+					</g:if>
 					<g:if test="${flash.message}">
-						<div class="message" style="display: block">${flash.message}</div>
+						<div class="row">
+							<div class="message alert alert-danger alert-dismissible col-md-4" role="alert" style="display: block; margin-top: 5px;"><button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>${flash.message}</div>
+						</div>
 					</g:if>
 				</g:form>
 		</fieldset>
+		<script type="text/javascript">
+			function validate() {
+				return false
+			}
+			function setStatus(status) {
+				$('input[name="statusChange"]').val(status)
+			}
+		</script>
 	</body>
 </html>
